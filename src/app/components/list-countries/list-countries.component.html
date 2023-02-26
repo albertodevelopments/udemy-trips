@@ -1,0 +1,73 @@
+<div class="row" *ngIf="load">
+    <div class="block-countries mt-4 mb-4 col-md-5 col-12">
+        <div class="row">
+            <div class="col-12 text-center p-3">
+                <h1>Lista de los países</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-select [(ngModel)]="regionSelected" (selectionChange)="filterCountries($event)">
+                      <mat-option *ngFor="let region of listRegions" [value]="region.code">
+                        {{ region.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 drop-list" 
+                cdkDropList 
+                [cdkDropListData]="listCountries"
+                (cdkDropListDropped)="drop($event)"
+                #lCountries="cdkDropList"
+                [cdkDropListConnectedTo]="lCountriesVisit"
+                >
+                <div cdkDrag class="row m-0 mt-2 mb-2 country" *ngFor="let country of listCountries">
+                    <div class="col-3 p-0">
+                        <img [src]="country.flag" alt="" class="img-fluid">
+                    </div>
+                    <div class="col-3">
+                        <span>{{ country.name }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="block-countries mt-4 mb-4 offset-md-2 col-md-5 col-12">
+        <div class="row text-center p-3">
+            <div class="col-12">
+                <h1>Lista de países a visitar</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 drop-list" 
+                cdkDropList 
+                [cdkDropListData]="listCountriesToVisit"
+                (cdkDropListDropped)="drop($event)"
+                #lCountriesVisit="cdkDropList"
+                [cdkDropListConnectedTo]="lCountries"
+                >
+                <div cdkDrag class="row m-0 mt-2 mb-2 country" *ngFor="let country of listCountriesToVisit">
+                    <div class="col-3 p-0">
+                        <img [src]="country.flag" alt="" class="img-fluid">
+                    </div>
+                    <div class="col-3">
+                        <span>{{ country.name }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="h-100" *ngIf="!load">
+    <div class="spinner">
+        <img src="../../../assets/img/spinner.gif" class="img-fluid">
+    </div>
+</div>
